@@ -1,0 +1,35 @@
+{#
+  Recursive sidebar navigation.
+  Renders nav items with collapsible sections for items with children.
+  Depth is controlled by config.theme.navigation_depth.
+#}
+
+{% macro nav_item(item, depth=1) %}
+  {% if item.children and depth <= config.theme.navigation_depth %}
+    <li class="os-nav-section{% if item.active %} os-nav-section--active{% endif %}">
+      <button class="os-nav-toggle"
+              aria-expanded="{{ 'true' if item.active else 'false' }}"
+              type="button">
+        <span>{{ item.title }}</span>
+        <svg class="os-nav-arrow" viewBox="0 0 24 24" width="16" height="16">
+          <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <ul{% if not item.active %} hidden{% endif %}>
+        {% for child in item.children %}
+          {{ nav_item(child, depth + 1) }}
+        {% endfor %}
+      </ul>
+    </li>
+  {% else %}
+    <li class="os-nav-item{% if item.active %} os-nav-item--active{% endif %}">
+      <a href="{{ item.url|url }}">{{ item.title }}</a>
+    </li>
+  {% endif %}
+{% endmacro %}
+
+<ul class="os-nav-list">
+  {% for item in nav %}
+    {{ nav_item(item) }}
+  {% endfor %}
+</ul>

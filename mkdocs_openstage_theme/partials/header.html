@@ -1,0 +1,16 @@
+{#
+  Mobile header bar with sidebar toggle.
+  Only visible on narrow viewports (below 768px).
+#}
+
+<header class="os-header">
+  <button class="os-sidebar-toggle" id="os-sidebar-toggle"
+          aria-label="Toggle navigation" type="button">
+    <svg viewBox="0 0 24 24" width="24" height="24">
+      <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <span class="os-header-title">{{ config.site_name }}</span>
+</header>

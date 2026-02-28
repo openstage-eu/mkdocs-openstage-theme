@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mkdocs-openstage-theme"
+version = "0.0.0"
+description = "A clean, book-like MkDocs theme with sidebar navigation, search, and dark mode for openstage"
+authors = [{name = "Maximilian Haag"}]
+license = "MIT"
+requires-python = ">=3.9"
+dependencies = ["mkdocs>=1.5"]
+
+[project.optional-dependencies]
+llmstxt = ["mkdocs-llmstxt"]
+
+[project.entry-points."mkdocs.themes"]
+openstage = "mkdocs_openstage_theme"
+
+[tool.setuptools.package-data]
+mkdocs_openstage_theme = [
+    "*.html",
+    "*.yml",
+    "partials/*.html",
+    "css/*.css",
+    "js/*.js",
+]

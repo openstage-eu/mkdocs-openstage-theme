@@ -1,0 +1,29 @@
+{#
+  On-page table of contents.
+  Renders page.toc recursively. Each item has .text, .url (anchor), .children.
+  Depth controlled by config.theme.toc_depth.
+#}
+
+{% macro toc_item(item, depth=1) %}
+  <li>
+    <a href="{{ item.url }}" class="os-toc-link">{{ item.title }}</a>
+    {% if item.children and depth < config.theme.toc_depth %}
+    <ul>
+      {% for child in item.children %}
+        {{ toc_item(child, depth + 1) }}
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </li>
+{% endmacro %}
+
+{% if page.toc|length > 0 %}
+<div class="os-toc-inner">
+  <span class="os-toc-title">On this page</span>
+  <ul class="os-toc-list">
+    {% for item in page.toc %}
+      {{ toc_item(item) }}
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

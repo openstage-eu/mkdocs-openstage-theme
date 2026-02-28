@@ -1,0 +1,771 @@
+/* ==========================================================================
+   openstage MkDocs Theme
+   Single-file CSS: layout, navigation, TOC, search, typography, dark mode, responsive
+   All configurability via --os-* custom properties (injected from mkdocs.yml)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Custom properties (defaults; overridden by inline style in base.html)
+   -------------------------------------------------------------------------- */
+:root {
+  --os-font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --os-font-code: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  --os-font-size: 16px;
+  --os-content-max-width: 48rem;
+  --os-sidebar-width: 18rem;
+  --os-toc-width: 14rem;
+  --os-primary: #1a73e8;
+  --os-accent: #1a73e8;
+
+  /* Derived / internal variables */
+  --os-bg: #ffffff;
+  --os-bg-sidebar: #f8f9fa;
+  --os-bg-code: #f5f5f5;
+  --os-text: #24292e;
+  --os-text-muted: #6a737d;
+  --os-border: #e1e4e8;
+  --os-link: var(--os-primary);
+  --os-nav-active-bg: rgba(26, 115, 232, 0.08);
+  --os-nav-active-border: var(--os-primary);
+  --os-toc-active: var(--os-primary);
+  --os-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --os-header-height: 3rem;
+}
+
+/* --------------------------------------------------------------------------
+   Dark mode
+   -------------------------------------------------------------------------- */
+[data-color-mode="dark"] {
+  --os-bg: #1e1e1e;
+  --os-bg-sidebar: #252526;
+  --os-bg-code: #2d2d2d;
+  --os-text: #d4d4d4;
+  --os-text-muted: #8b949e;
+  --os-border: #30363d;
+  --os-nav-active-bg: rgba(26, 115, 232, 0.15);
+  --os-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   Reset / base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--os-font-size);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--os-font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--os-text);
+  background: var(--os-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   Layout: CSS Grid
+   -------------------------------------------------------------------------- */
+.os-layout {
+  display: grid;
+  grid-template-columns: var(--os-sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+.os-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--os-sidebar-width);
+  background: var(--os-bg-sidebar);
+  border-right: 1px solid var(--os-border);
+  overflow-y: auto;
+  z-index: 100;
+  transition: transform 0.25s ease;
+}
+
+.os-sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0;
+  height: 100%;
+}
+
+.os-main {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.os-content-area {
+  display: flex;
+  max-width: calc(var(--os-content-max-width) + var(--os-toc-width) + 4rem);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.os-content {
+  flex: 1;
+  min-width: 0;
+  max-width: var(--os-content-max-width);
+  padding: 2rem 0;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar header (logo / site title)
+   -------------------------------------------------------------------------- */
+.os-sidebar-header {
+  padding: 0 1.25rem 1rem;
+  border-bottom: 1px solid var(--os-border);
+  margin-bottom: 0.75rem;
+}
+
+.os-site-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--os-text);
+  text-decoration: none;
+  display: block;
+}
+
+.os-site-title:hover {
+  color: var(--os-primary);
+}
+
+.os-logo img {
+  max-width: 100%;
+  max-height: 2.5rem;
+}
+
+/* Sidebar without dividers */
+.os-sidebar--no-dividers .os-sidebar-header {
+  border-bottom: none;
+}
+
+.os-sidebar--no-dividers .os-search {
+  border-bottom: none;
+}
+
+.os-sidebar--no-dividers .os-sidebar-footer {
+  border-top: none;
+}
+
+/* --------------------------------------------------------------------------
+   Search
+   -------------------------------------------------------------------------- */
+.os-search {
+  padding: 0.5rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--os-border);
+  margin-bottom: 0.5rem;
+}
+
+.os-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.os-search-icon {
+  position: absolute;
+  left: 0.6rem;
+  color: var(--os-text-muted);
+  pointer-events: none;
+}
+
+.os-search-input {
+  width: 100%;
+  padding: 0.4rem 0.5rem 0.4rem 2rem;
+  border: 1px solid var(--os-border);
+  border-radius: 4px;
+  background: var(--os-bg);
+  color: var(--os-text);
+  font-family: var(--os-font-body);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.os-search-input:focus {
+  border-color: var(--os-primary);
+}
+
+.os-search-results {
+  margin-top: 0.5rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.os-search-results.os-search-results--hidden {
+  display: none;
+}
+
+.os-search-results article {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--os-border);
+}
+
+.os-search-results article h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.os-search-results article h3 a {
+  color: var(--os-primary);
+  text-decoration: none;
+}
+
+.os-search-results article p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--os-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Navigation
+   -------------------------------------------------------------------------- */
+.os-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0.75rem;
+}
+
+.os-nav-list,
+.os-nav-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.os-nav-list ul {
+  padding-left: 0.75rem;
+}
+
+.os-nav-item a,
+.os-nav-toggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: var(--os-text);
+  font-family: var(--os-font-body);
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.os-nav-item a:hover,
+.os-nav-toggle:hover {
+  background: var(--os-nav-active-bg);
+}
+
+.os-nav-item--active > a {
+  background: var(--os-nav-active-bg);
+  color: var(--os-primary);
+  font-weight: 500;
+  border-left: 2px solid var(--os-nav-active-border);
+  padding-left: calc(0.5rem - 2px);
+}
+
+.os-nav-toggle {
+  justify-content: space-between;
+  font-weight: 500;
+}
+
+.os-nav-toggle span {
+  flex: 1;
+}
+
+.os-nav-arrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.os-nav-toggle[aria-expanded="true"] .os-nav-arrow {
+  transform: rotate(90deg);
+}
+
+.os-nav-section--active > .os-nav-toggle {
+  color: var(--os-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Table of Contents (right sidebar)
+   -------------------------------------------------------------------------- */
+.os-toc {
+  width: var(--os-toc-width);
+  flex-shrink: 0;
+  padding-left: 2rem;
+}
+
+.os-toc-inner {
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding-left: 1rem;
+  border-left: 1px solid var(--os-border);
+}
+
+.os-toc-title {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--os-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.os-toc-list,
+.os-toc-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.os-toc-list ul {
+  padding-left: 0.75rem;
+}
+
+.os-toc-link {
+  display: block;
+  padding: 0.2rem 0;
+  font-size: 0.8rem;
+  color: var(--os-text-muted);
+  text-decoration: none;
+  line-height: 1.4;
+  transition: color 0.15s;
+}
+
+.os-toc-link:hover {
+  color: var(--os-text);
+}
+
+.os-toc-link.os-toc-link--active {
+  color: var(--os-toc-active);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar footer (color toggle, nav links)
+   -------------------------------------------------------------------------- */
+.os-sidebar-footer {
+  margin-top: auto;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--os-border);
+}
+
+.os-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.os-nav-link {
+  display: block;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.825rem;
+  color: var(--os-text-muted);
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.os-nav-link:hover {
+  color: var(--os-text);
+  background: var(--os-nav-active-bg);
+}
+
+.os-sidebar-footer .os-color-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  border: none;
+  background: none;
+  color: var(--os-text-muted);
+  font-family: var(--os-font-body);
+  font-size: 0.825rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.os-sidebar-footer .os-color-toggle:hover {
+  color: var(--os-text);
+  background: var(--os-nav-active-bg);
+}
+
+.os-color-label {
+  display: inline;
+}
+
+/* --------------------------------------------------------------------------
+   Header (mobile)
+   -------------------------------------------------------------------------- */
+.os-header {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  height: var(--os-header-height);
+  padding: 0 1rem;
+  background: var(--os-bg);
+  border-bottom: 1px solid var(--os-border);
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.os-sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: var(--os-text);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.os-sidebar-toggle:hover {
+  background: var(--os-nav-active-bg);
+}
+
+.os-header-title {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Color toggle icon switching */
+[data-color-mode="light"] .os-icon-moon,
+[data-color-mode="auto"] .os-icon-moon {
+  display: none;
+}
+
+[data-color-mode="dark"] .os-icon-sun {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Footer (prev/next navigation)
+   -------------------------------------------------------------------------- */
+.os-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--os-border);
+}
+
+.os-footer-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.os-footer-link {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--os-border);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: border-color 0.15s;
+  max-width: 50%;
+}
+
+.os-footer-link:hover {
+  border-color: var(--os-primary);
+}
+
+.os-footer-link--next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.os-footer-label {
+  font-size: 0.75rem;
+  color: var(--os-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.os-footer-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--os-primary);
+}
+
+.os-copyright {
+  margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--os-text-muted);
+}
+
+.os-copyright p {
+  margin: 0;
+}
+
+.os-site-footer {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--os-border);
+  font-size: 0.75rem;
+  color: var(--os-text-muted);
+}
+
+.os-site-footer p {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Overlay (mobile sidebar backdrop)
+   -------------------------------------------------------------------------- */
+.os-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.os-overlay.os-overlay--visible {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Typography
+   -------------------------------------------------------------------------- */
+.os-content h1,
+.os-content h2,
+.os-content h3,
+.os-content h4,
+.os-content h5,
+.os-content h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.os-content .headerlink {
+  visibility: hidden;
+  margin-left: 0.25em;
+  color: var(--os-text-muted);
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.os-content h1:hover .headerlink,
+.os-content h2:hover .headerlink,
+.os-content h3:hover .headerlink,
+.os-content h4:hover .headerlink,
+.os-content h5:hover .headerlink,
+.os-content h6:hover .headerlink {
+  visibility: visible;
+}
+
+.os-content h1 { font-size: 2rem; margin-top: 0; }
+.os-content h2 { font-size: 1.5rem; padding-bottom: 0.3em; border-bottom: 1px solid var(--os-border); }
+.os-content h3 { font-size: 1.25rem; }
+.os-content h4 { font-size: 1rem; }
+
+.os-content p {
+  margin: 0 0 1em;
+}
+
+.os-content a {
+  color: var(--os-link);
+  text-decoration: none;
+}
+
+.os-content a:hover {
+  text-decoration: underline;
+}
+
+.os-content code {
+  font-family: var(--os-font-code);
+  font-size: 0.875em;
+  padding: 0.15em 0.35em;
+  background: var(--os-bg-code);
+  border-radius: 3px;
+}
+
+.os-content pre {
+  margin: 0 0 1em;
+  padding: 1rem;
+  background: var(--os-bg-code);
+  border-radius: 6px;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+.os-content pre code {
+  padding: 0;
+  background: none;
+  font-size: 0.85rem;
+}
+
+.os-content blockquote {
+  margin: 0 0 1em;
+  padding: 0.5rem 1rem;
+  border-left: 3px solid var(--os-primary);
+  color: var(--os-text-muted);
+  background: var(--os-bg-code);
+  border-radius: 0 4px 4px 0;
+}
+
+.os-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.os-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.os-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1em;
+  font-size: 0.9rem;
+}
+
+.os-content th,
+.os-content td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--os-border);
+  text-align: left;
+}
+
+.os-content th {
+  background: var(--os-bg-code);
+  font-weight: 600;
+}
+
+.os-content ul,
+.os-content ol {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+}
+
+.os-content li {
+  margin-bottom: 0.25em;
+}
+
+.os-content hr {
+  border: none;
+  border-top: 1px solid var(--os-border);
+  margin: 2em 0;
+}
+
+/* --------------------------------------------------------------------------
+   Admonitions (simple support for MkDocs admonition extension)
+   -------------------------------------------------------------------------- */
+.os-content .admonition {
+  margin: 1em 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--os-primary);
+  background: var(--os-bg-code);
+  border-radius: 0 4px 4px 0;
+}
+
+.os-content .admonition-title {
+  font-weight: 600;
+  margin-bottom: 0.25em;
+}
+
+/* --------------------------------------------------------------------------
+   Subsite bar (back-link at top of sidebar)
+   -------------------------------------------------------------------------- */
+.os-subsite-bar {
+  padding: 0.5rem 1.25rem;
+  background: var(--os-primary);
+  flex-shrink: 0;
+}
+
+.os-subsite-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+
+.os-subsite-link:hover {
+  opacity: 1;
+}
+
+.os-subsite-logo {
+  height: 1rem;
+  width: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive: TOC hides below 1100px
+   -------------------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .os-toc {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive: Sidebar becomes off-canvas below 768px
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .os-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .os-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .os-sidebar.os-sidebar--open {
+    transform: translateX(0);
+    box-shadow: var(--os-shadow);
+  }
+
+  .os-main {
+    grid-column: 1;
+  }
+
+  .os-header {
+    display: flex;
+  }
+
+  .os-content-area {
+    padding: 0 1rem;
+  }
+
+  .os-content {
+    padding-top: 1rem;
+  }
+
+  .os-footer-nav {
+    flex-direction: column;
+  }
+
+  .os-footer-link {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="{{ config.theme.locale|default('en') }}" data-color-mode="{{ config.theme.color_mode }}">
+<head>
+  {%- block site_meta %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% if page and page.is_homepage %}<meta name="description" content="{{ config.site_description }}">{% endif %}
+  {% if config.site_author %}<meta name="author" content="{{ config.site_author }}">{% endif %}
+  {% if page and page.canonical_url %}<link rel="canonical" href="{{ page.canonical_url }}">{% endif %}
+  {%- endblock %}
+
+  {%- block htmltitle %}
+  <title>{% if page and page.title and not page.is_homepage %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
+  {%- endblock %}
+
+  {%- block styles %}
+  <style>
+    :root {
+      --os-font-body: {{ config.theme.font_family_body }};
+      --os-font-code: {{ config.theme.font_family_code }};
+      --os-font-size: {{ config.theme.font_size_body }};
+      --os-content-max-width: {{ config.theme.content_max_width }};
+      --os-sidebar-width: {{ config.theme.sidebar_width }};
+      --os-toc-width: {{ config.theme.toc_width }};
+      --os-primary: {{ config.theme.primary_color }};
+      --os-accent: {{ config.theme.accent_color }};
+    }
+  </style>
+  <link href="{{ 'css/theme.css'|url }}" rel="stylesheet">
+  {%- if config.theme.highlightjs %}
+  <link id="hljs-light" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/{{ config.theme.hljs_style }}.min.css"
+        {% if config.theme.color_mode == "dark" %}disabled{% endif %}>
+  <link id="hljs-dark" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/{{ config.theme.hljs_style_dark }}.min.css"
+        {% if config.theme.color_mode != "dark" %}disabled{% endif %}>
+  {%- endif %}
+  {%- for path in config.extra_css %}
+  <link href="{{ path|url }}" rel="stylesheet">
+  {%- endfor %}
+  {%- endblock %}
+
+  {%- block libs %}
+  {%- if config.theme.highlightjs %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  {%- for lang in config.theme.hljs_languages %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/{{ lang }}.min.js"></script>
+  {%- endfor %}
+  <script>hljs.highlightAll();</script>
+  {%- endif %}
+  {%- endblock %}
+
+  {%- block extrahead %}{% endblock %}
+</head>
+
+<body>
+  {%- block body %}
+  <div class="os-layout">
+
+    {%- block sidebar %}
+    <aside class="os-sidebar{% if not config.theme.show_sidebar_dividers %} os-sidebar--no-dividers{% endif %}" id="os-sidebar">
+      {% if config.theme.subsite %}
+      <div class="os-subsite-bar">
+        <a href="{{ config.theme.subsite.url }}" class="os-subsite-link">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          {% if config.theme.subsite.logo %}
+          <img src="{{ config.theme.subsite.logo|url }}" alt="" class="os-subsite-logo">
+          {% endif %}
+          <span>{{ config.theme.subsite.text }}</span>
+        </a>
+      </div>
+      {% endif %}
+      <div class="os-sidebar-inner">
+        <div class="os-sidebar-header">
+          {%- block sidebar_header %}
+          {% if config.theme.logo %}
+          <a href="{{ nav.homepage.url|url }}" class="os-logo">
+            <img src="{{ config.theme.logo|url }}" alt="{{ config.site_name }}">
+          </a>
+          {% else %}
+          <a href="{{ nav.homepage.url|url }}" class="os-site-title">
+            {{ config.theme.site_title or config.site_name }}
+          </a>
+          {% endif %}
+          {%- endblock %}
+        </div>
+
+        {%- block search %}
+        {% if 'search' in config.plugins %}
+        {% include "partials/search.html" %}
+        {% endif %}
+        {%- endblock %}
+
+        {%- block nav %}
+        <nav class="os-nav" aria-label="Navigation">
+          {% include "partials/nav.html" %}
+        </nav>
+        {%- endblock %}
+
+        <div class="os-sidebar-footer">
+          {%- block sidebar_links %}
+          {% if config.theme.nav_links %}
+          <div class="os-nav-links">
+            {% for link in config.theme.nav_links %}
+            <a href="{{ link.url }}" class="os-nav-link" {% if link.url.startswith('http') %}target="_blank" rel="noopener"{% endif %}>
+              {{ link.title }}
+            </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {%- endblock %}
+
+          {% if config.theme.color_toggle %}
+          <button class="os-color-toggle" id="os-color-toggle"
+                  aria-label="Toggle color mode" type="button">
+            <svg class="os-icon-sun" viewBox="0 0 24 24" width="18" height="18">
+              <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg class="os-icon-moon" viewBox="0 0 24 24" width="18" height="18">
+              <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="os-color-label">{{ config.theme.color_toggle_label }}</span>
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </aside>
+    {%- endblock %}
+
+    <div class="os-main">
+      {%- block header %}
+      {% include "partials/header.html" %}
+      {%- endblock %}
+
+      <div class="os-content-area">
+        <main class="os-content" role="main">
+          {%- block content %}
+          {{ page.content }}
+          {%- endblock %}
+
+          {%- block footer %}
+          {% include "partials/footer.html" %}
+          {%- endblock %}
+        </main>
+
+        {%- block toc %}
+        {% if config.theme.show_toc and page and page.toc %}
+        <aside class="os-toc" aria-label="Table of contents">
+          {% include "partials/toc.html" %}
+        </aside>
+        {% endif %}
+        {%- endblock %}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="os-overlay" id="os-overlay"></div>
+  {%- endblock body %}
+
+  {%- block scripts %}
+  <script>
+    var base_url = {{ base_url|tojson }};
+  </script>
+  <script src="{{ 'js/theme.js'|url }}"></script>
+  {%- for script in config.extra_javascript %}
+  {{ script|script_tag }}
+  {%- endfor %}
+  {%- endblock %}
+</body>
+</html>

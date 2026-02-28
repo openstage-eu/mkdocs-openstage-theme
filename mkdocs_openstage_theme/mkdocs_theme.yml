@@ -1,0 +1,36 @@
+extends: null
+
+search_index_only: false
+
+highlightjs: true
+hljs_languages: []
+hljs_style: github
+hljs_style_dark: github-dark
+
+navigation_depth: 4
+toc_depth: 3
+
+font_family_body: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+font_family_code: "'JetBrains Mono', 'Fira Code', 'Consolas', monospace"
+font_size_body: "16px"
+content_max_width: "48rem"
+sidebar_width: "18rem"
+toc_width: "14rem"
+
+logo: null
+site_title: null
+show_toc: true
+show_sidebar_dividers: true
+
+primary_color: "#1a73e8"
+accent_color: "#1a73e8"
+color_mode: "light"
+color_toggle: true
+color_toggle_label: "Toggle dark mode"
+
+nav_links: []
+site_footer: null
+
+subsite: null
+
+locale: en
