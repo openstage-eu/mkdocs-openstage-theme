@@ -1,38 +1,32 @@
-site_name: openstage Demo Site
+site_name: openstage theme
 site_url: https://openstage-eu.github.io/mkdocs-openstage-theme/
-site_description: Test site for the openstage MkDocs theme
+site_description: A clean, book-like MkDocs theme with sidebar navigation, search, and dark mode
 
 theme:
   name: openstage
   color_mode: light
   color_toggle: true
-  subsite:
-    text: "Back to openstage"
-    url: "https://openstage.eu"
   nav_links:
-    - title: Theme repository
+    - title: GitHub
       url: https://github.com/openstage-eu/mkdocs-openstage-theme
   site_footer: "Built with openstage theme for MkDocs"
 
 nav:
   - Home: index.md
-  - Getting Started:
-    - Installation: getting-started/installation.md
-    - Configuration: getting-started/configuration.md
-  - Guide:
-    - Overview: guide/overview.md
-    - Advanced: guide/advanced.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Overview: overview.md
+  - Advanced: advanced.md
 
 plugins:
   - search
   - llmstxt:
       sections:
-        "Getting Started":
-          - getting-started/installation.md: Installation instructions
-          - getting-started/configuration.md: All configuration options
-        "Guide":
-          - guide/overview.md: Architecture and design overview
-          - guide/advanced.md: Advanced usage and customization
+        "Documentation":
+          - installation.md: Installation instructions
+          - configuration.md: All configuration options
+          - overview.md: Architecture and design overview
+          - advanced.md: Advanced usage and customization
 
 markdown_extensions:
   - toc:
