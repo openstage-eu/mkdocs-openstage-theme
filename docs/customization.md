@@ -1,4 +1,4 @@
-# Advanced Usage
+# Customization
 
 ## Custom Blocks
 

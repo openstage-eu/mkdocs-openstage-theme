@@ -15,8 +15,8 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Configuration: configuration.md
-  - Overview: overview.md
-  - Advanced: advanced.md
+  - Theme Structure: theme-structure.md
+  - Customization: customization.md
 
 plugins:
   - search
@@ -25,8 +25,8 @@ plugins:
         "Documentation":
           - installation.md: Installation instructions
           - configuration.md: All configuration options
-          - overview.md: Architecture and design overview
-          - advanced.md: Advanced usage and customization
+          - theme-structure.md: Architecture and file organization
+          - customization.md: Template blocks, dark mode, and subsite bar
 
 markdown_extensions:
   - toc:

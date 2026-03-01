@@ -1,4 +1,4 @@
-# Overview
+# Theme Structure
 
 ## Architecture
 
