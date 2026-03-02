@@ -106,18 +106,27 @@ theme:
 | `subsite.url` | -- | URL the bar links to |
 | `subsite.logo` | `null` | Optional small logo displayed next to the text |
 
+## Repository Link
+
+If you set the standard MkDocs `repo_url` option, the theme renders a link in the sidebar footer. MkDocs auto-detects the label from the URL (e.g. "GitHub"), or you can set `repo_name` explicitly.
+
+```yaml
+repo_url: https://github.com/my-org/my-project
+repo_name: GitHub   # optional, auto-detected from URL
+```
+
 ## Sidebar Footer Links
 
-Add external or internal links to the bottom of the sidebar, above the color toggle.
+Add additional links to the bottom of the sidebar, above the color toggle. These appear alongside the repository link if both are set.
 
 ```yaml
 theme:
   name: openstage
   nav_links:
-    - title: GitHub
-      url: https://github.com/my-org/my-project
     - title: API Reference
       url: /api/
+    - title: Discord
+      url: https://discord.gg/example
 ```
 
 Links starting with `http` automatically open in a new tab.

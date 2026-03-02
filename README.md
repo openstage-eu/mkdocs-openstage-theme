@@ -34,9 +34,11 @@ theme:
 
 ## Configuration
 
-All options go under `theme:` in your `mkdocs.yml`:
+All options go under `theme:` in your `mkdocs.yml`. The theme also renders `repo_url` in the sidebar footer if set.
 
 ```yaml
+repo_url: https://github.com/my-org/my-project  # optional, shown in sidebar
+
 theme:
   name: openstage
 

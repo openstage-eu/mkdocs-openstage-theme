@@ -99,8 +99,13 @@
 
         <div class="os-sidebar-footer">
           {%- block sidebar_links %}
-          {% if config.theme.nav_links %}
+          {% if config.theme.nav_links or config.repo_url %}
           <div class="os-nav-links">
+            {% if config.repo_url %}
+            <a href="{{ config.repo_url }}" class="os-nav-link" target="_blank" rel="noopener">
+              {{ config.repo_name or 'Repository' }}
+            </a>
+            {% endif %}
             {% for link in config.theme.nav_links %}
             <a href="{{ link.url }}" class="os-nav-link" {% if link.url.startswith('http') %}target="_blank" rel="noopener"{% endif %}>
               {{ link.title }}

@@ -1,14 +1,12 @@
 site_name: openstage theme
 site_url: https://openstage-eu.github.io/mkdocs-openstage-theme/
 site_description: A clean, book-like MkDocs theme with sidebar navigation, search, and dark mode
+repo_url: https://github.com/openstage-eu/mkdocs-openstage-theme
 
 theme:
   name: openstage
   color_mode: light
   color_toggle: true
-  nav_links:
-    - title: GitHub
-      url: https://github.com/openstage-eu/mkdocs-openstage-theme
   site_footer: "Built with openstage theme for MkDocs"
 
 nav:
