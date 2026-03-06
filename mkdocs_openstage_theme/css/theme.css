@@ -309,6 +309,7 @@ body {
   width: var(--os-toc-width);
   flex-shrink: 0;
   padding-left: 2rem;
+  padding-top: 2rem;
 }
 
 .os-toc-inner {
