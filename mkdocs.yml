@@ -7,6 +7,9 @@ theme:
   name: openstage
   color_mode: light
   color_toggle: true
+  subsite:
+    text: openstage project
+    url: https://github.com/openstage-eu
   announcement: "New: announcement bar support. <a href='configuration/#announcement-bar'>Learn more</a>."
   announcement_level: info
   site_footer: "Built with openstage theme for MkDocs"
