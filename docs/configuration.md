@@ -86,6 +86,52 @@ theme:
 | `logo` | `null` | Path to a logo image for the sidebar header. If not set, the site name is displayed as text. |
 | `site_title` | `null` | Override the site name displayed in the sidebar header |
 
+## Announcement Bar
+
+Display a dismissal-free banner at the top of the content area. Useful for version notices, deprecation warnings, or status updates.
+
+### Site-level configuration
+
+```yaml
+theme:
+  name: openstage
+  announcement: "v2.0 has been released. <a href='/changelog/'>See what's new</a>."
+  announcement_level: info
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `announcement` | `null` | Text or HTML content for the banner. Set to `null` (or omit) to hide. |
+| `announcement_level` | `info` | Visual style of the banner. One of `info`, `warning`, `danger`, `success`. |
+
+### Available levels
+
+| Level | Use case |
+|-------|----------|
+| `info` | General notices, version announcements (blue) |
+| `warning` | Deprecation notices, upcoming changes (amber) |
+| `danger` | Breaking changes, critical alerts (red) |
+| `success` | Positive updates, resolved issues (green) |
+
+### Page-level front matter
+
+Override or suppress the announcement on individual pages:
+
+```yaml
+---
+announcement: "This page has a custom notice."
+announcement_level: warning
+---
+```
+
+To suppress the site-level announcement on a specific page:
+
+```yaml
+---
+announcement: false
+---
+```
+
 ## Subsite Bar
 
 The subsite bar adds a navigation link above the sidebar, useful when this documentation site is part of a larger project.

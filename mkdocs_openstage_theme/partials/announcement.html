@@ -1,0 +1,9 @@
+{% set announce_text = page.meta.announcement if page and page.meta and page.meta.announcement is defined else config.theme.announcement %}
+{% set announce_level = page.meta.announcement_level if page and page.meta and page.meta.announcement_level is defined else config.theme.announcement_level %}
+{% if announce_text and announce_text != "false" and announce_text is not sameas false %}
+<div class="os-announce os-announce--{{ announce_level }}">
+  <div class="os-announce-inner">
+    {{ announce_text }}
+  </div>
+</div>
+{% endif %}

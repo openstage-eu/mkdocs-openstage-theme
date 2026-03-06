@@ -31,6 +31,9 @@ color_toggle_label: "Toggle dark mode"
 nav_links: []
 site_footer: null
 
+announcement: null
+announcement_level: info
+
 subsite: null
 
 locale: en

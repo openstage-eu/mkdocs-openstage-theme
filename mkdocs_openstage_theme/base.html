@@ -136,6 +136,10 @@
     {%- endblock %}
 
     <div class="os-main">
+      {%- block announce %}
+      {% include "partials/announcement.html" %}
+      {%- endblock %}
+
       {%- block header %}
       {% include "partials/header.html" %}
       {%- endblock %}
