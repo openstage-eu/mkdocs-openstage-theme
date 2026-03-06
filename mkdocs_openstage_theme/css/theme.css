@@ -313,7 +313,7 @@ body {
 
 .os-toc-inner {
   position: sticky;
-  top: 1.5rem;
+  top: 2rem;
   max-height: calc(100vh - 3rem);
   overflow-y: auto;
   padding-left: 1rem;
