@@ -210,3 +210,15 @@ theme:
 | `hljs_style` | `"github"` | highlight.js theme for light mode |
 | `hljs_style_dark` | `"github-dark"` | highlight.js theme for dark mode |
 | `hljs_languages` | `[]` | Additional languages to load beyond the highlight.js defaults |
+
+## Search
+
+The theme uses the built-in MkDocs search plugin. By default the plugin splits text into search terms only on whitespace and hyphens, so identifiers that appear next to punctuation in code (for example `max_length=50` or `{base_url}/api`) are not findable by name. For documentation that contains code, set a custom separator:
+
+```yaml
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;'
+```
+
+This splits terms on punctuation and dots as well, while keeping underscore identifiers such as `create_project` intact and searchable. The `separator` is a plugin option, so it goes under `plugins:` in each site's `mkdocs.yml`, not under `theme:`.

@@ -90,6 +90,18 @@ theme:
   hljs_languages: []
 ```
 
+## Search
+
+The theme uses the built-in MkDocs search plugin. If your documentation contains code, set a custom separator so identifiers next to punctuation (for example `max_length=50`) stay findable by name:
+
+```yaml
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;'
+```
+
+See the [configuration docs](https://openstage-eu.github.io/mkdocs-openstage-theme/configuration/#search) for details.
+
 ## LLM-readable documentation
 
 To generate an `/llms.txt` file for your site, install the optional `mkdocs-llmstxt` plugin:

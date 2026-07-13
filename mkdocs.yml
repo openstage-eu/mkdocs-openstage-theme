@@ -22,7 +22,8 @@ nav:
   - Customization: customization.md
 
 plugins:
-  - search
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;'
   - llmstxt:
       sections:
         "Documentation":
